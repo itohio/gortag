@@ -68,7 +68,7 @@ func (a *App) makeMenu() *widget.Toolbar {
 	})
 
 	settingsAction := widget.NewToolbarAction(theme.SettingsIcon(), func() {
-
+		a.ShowPreferences()
 	})
 
 	var actions []widget.ToolbarItem

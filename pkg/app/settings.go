@@ -4,11 +4,16 @@ import (
 	"fmt"
 	"io"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/storage"
 )
 
+func (a *App) MakeURI(base string) (fyne.URI, error) {
+	return storage.Child(a.app.Storage().RootURI(), base)
+}
+
 func (a *App) Reader(base string) (io.ReadCloser, error) {
-	uri, err := storage.Child(a.app.Storage().RootURI(), base)
+	uri, err := a.MakeURI(base)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +31,7 @@ func (a *App) Reader(base string) (io.ReadCloser, error) {
 }
 
 func (a *App) Writer(base string) (io.WriteCloser, error) {
-	uri, err := storage.Child(a.app.Storage().RootURI(), base)
+	uri, err := a.MakeURI(base)
 	if err != nil {
 		return nil, err
 	}

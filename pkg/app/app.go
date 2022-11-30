@@ -2,8 +2,6 @@ package app
 
 import (
 	"context"
-	"fmt"
-	"net/url"
 	"sync"
 
 	"fyne.io/fyne/v2"
@@ -29,7 +27,7 @@ var (
 func New(name string) *App {
 	a := app.NewWithID(appFQDN)
 	w := a.NewWindow(name)
-	w.Resize(fyne.NewSize(350, 600))
+	w.Resize(fyne.NewSize(500, 600))
 
 	ctx, cancel := context.WithCancel(context.Background())
 
@@ -41,22 +39,6 @@ func New(name string) *App {
 	}
 
 	ret.initPreferences()
-
-	for i, w := range ret.engine.Devices() {
-		v, err := url.ParseQuery(w)
-		if err != nil {
-			panic(err)
-		}
-		dflt := " "
-		if v.Has("default") {
-			dflt = "*"
-		}
-		if v.Get("name") != "" {
-			fmt.Printf(" %d%s: %s (%s ch, %ssps) id=%s\n", i, dflt, v.Get("name"), v.Get("ch"), v.Get("sr"), v.Get("id"))
-		} else {
-			fmt.Printf(" %d%s: %s\n", i, dflt, w)
-		}
-	}
 
 	return ret
 }
